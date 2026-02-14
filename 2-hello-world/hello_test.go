@@ -9,6 +9,32 @@ func assertMessage(t testing.TB, got, want string) {
 	}
 }
 
+func TestHelloWithRegion(t *testing.T) {
+	t.Run("Rio Grande do Norte morning", func(t *testing.T) {
+		got := HelloWithRegion(9, RegionRN)
+		want := "Bom dia, boy"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("São Paulo afternoon", func(t *testing.T) {
+		got := HelloWithRegion(14, RegionSP)
+		want := "Boa tarde, mano"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("Minas Gerais morning", func(t *testing.T) {
+		got := HelloWithRegion(10, RegionMG)
+		want := "Bom dia, sô"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("Rio Grande do Sul evening", func(t *testing.T) {
+		got := HelloWithRegion(22, RegionRS)
+		want := "Boa noite, tchê"
+		assertMessage(t, got, want)
+	})
+}
+
 func TestHello(t *testing.T) {
 	t.Run("cumprimentar pessoas", func(t *testing.T) {
 		got := Hello("Maria")

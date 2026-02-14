@@ -4,6 +4,38 @@ import "fmt"
 
 const prefixoPortugues = "Olá, "
 
+const (
+	RegionRN = "rn"
+	RegionSP = "sp"
+	RegionMG = "mg"
+	RegionRS = "rs"
+)
+
+func getRegionalVocative(region string) string {
+	switch region {
+	case RegionRN:
+		return "boy"
+	case RegionSP:
+		return "mano"
+	case RegionMG:
+		return "sô"
+	case RegionRS:
+		return "tchê"
+	default:
+		return "" // sem vocativo regional
+	}
+}
+
+func HelloWithRegion(hour int, region string) string {
+	greeting := getTimeGreeting(hour)
+	vocative := getRegionalVocative(region)
+
+	if vocative != "" {
+		return greeting + ", " + vocative
+	}
+	return greeting + ", Mundo"
+}
+
 func Hello(name string) string {
 	if name == "" {
 		name = "Mundo"
