@@ -33,7 +33,7 @@ go test -v
 
 ## Conteúdo Relacionado
 
-Este repositório acompanha minha série de vídeos sobre Go no YouTube, onde explico cada conceito em detalhes.
+Este repositório acompanha minha série de vídeos do [Curso Básico de Go](https://youtube.com/playlist?list=PLTr2C2xXIaIqO7Yr7FHohhgG_OgONpYIx&si=7CaGULMYTcdo81oI) no YouTube.
 
 ## Contribuições
 
