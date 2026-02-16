@@ -9,6 +9,30 @@ func assertMessage(t testing.TB, got, want string) {
 	}
 }
 
+func TestHelloWithConfig(t *testing.T) {
+	t.Run("config completa", func(T *testing.T) {
+		cfg := HelloConfig{
+			Name:   "Maria",
+			Hour:   9,
+			Region: RegionRN,
+		}
+		got := HelloWithConfig(cfg)
+		want := "Bom dia, boy"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("config parcial - só nome e hora", func(t *testing.T) {
+		cfg := HelloConfig{
+			Name: "Maria",
+			Hour: 9,
+			// região omitida
+		}
+		got := HelloWithConfig(cfg)
+		want := "Bom dia, Maria"
+		assertMessage(t, got, want)
+	})
+}
+
 func TestHelloWithRegion(t *testing.T) {
 	t.Run("Rio Grande do Norte morning", func(t *testing.T) {
 		got := HelloWithRegion(9, RegionRN)
@@ -36,36 +60,85 @@ func TestHelloWithRegion(t *testing.T) {
 }
 
 func TestHello(t *testing.T) {
-	t.Run("cumprimentar pessoas", func(t *testing.T) {
-		got := Hello("Maria")
-		want := "Olá, Maria"
+	t.Run("apenas nome", func(t *testing.T) {
+		got := Hello(WithName("Fernando"))
+		want := "Olá, Fernando"
 		assertMessage(t, got, want)
 	})
 
-	t.Run("usar 'Mundo' quando string for vazia", func(t *testing.T) {
-		got := Hello("")
+	t.Run("nome e horário", func(t *testing.T) {
+		got := Hello(
+			WithName("Maria"),
+			WithHour(9),
+		)
+		want := "Bom dia, Maria"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("completo - nome, hora e região", func(t *testing.T) {
+		got := Hello(
+			WithName("João"),
+			WithHour(20),
+			WithRegion(RegionRN),
+		)
+		want := "Boa noite, João"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("apenas região - usa vocativo", func(t *testing.T) {
+		got := Hello(WithRegion(RegionRN))
+		want := "Olá, boy"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("hora e região sem nome - usa vocativo", func(t *testing.T) {
+		got := Hello(
+			WithHour(14),
+			WithRegion(RegionMG),
+		)
+		want := "Boa tarde, sô"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("nome com espaços em branco", func(t *testing.T) {
+		got := Hello(WithName("  Fernando  "))
+		want := "Olá, Fernando"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("nome vazio (só espaços) com região - usa vocativo", func(t *testing.T) {
+		got := Hello(
+			WithName("   "),
+			WithRegion(RegionSP),
+		)
+		want := "Olá, mano"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("nome vazio explícito com região - usa vocativo", func(t *testing.T) {
+		got := Hello(
+			WithName(""),
+			WithRegion(RegionRS),
+		)
+		want := "Olá, tchê"
+		assertMessage(t, got, want)
+	})
+
+	t.Run("sem options - usa padrões", func(t *testing.T) {
+		got := Hello()
 		want := "Olá, Mundo"
 		assertMessage(t, got, want)
 	})
 
-	t.Run("saudação de manhã", func(t *testing.T) {
-		hour := 9
-		got := HelloWithTime("Rodolfo", hour)
-		want := "Bom dia, Rodolfo"
+	t.Run("nome vazio sem região - usa Mundo", func(t *testing.T) {
+		got := Hello(WithName(""))
+		want := "Olá, Mundo"
 		assertMessage(t, got, want)
 	})
 
-	t.Run("saudação da tarde", func(t *testing.T) {
-		hour := 14
-		got := HelloWithTime("Maria", hour)
-		want := "Boa tarde, Maria"
-		assertMessage(t, got, want)
-	})
-
-	t.Run("saudação da noite", func(t *testing.T) {
-		hour := 20
-		got := HelloWithTime("João", hour)
-		want := "Boa noite, João"
+	t.Run("região inválida sem nome - usa Mundo", func(t *testing.T) {
+		got := Hello(WithRegion("xyz"))
+		want := "Olá, Mundo"
 		assertMessage(t, got, want)
 	})
 }
