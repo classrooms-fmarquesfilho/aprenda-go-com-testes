@@ -2,23 +2,22 @@ package metodosinterfaces
 
 import "testing"
 
-func TestArea(t *testing.T) {
-	r := Retangulo{Largura: 12, Altura: 6}
-	c := Circulo{Raio: 10}
+func checarArea(t testing.TB, forma Forma, want float64) {
+	t.Helper()
+	got := forma.Area()
+	if got != want {
+		t.Errorf("got %.2f want %.2f", got, want)
+	}
+}
 
+func TestArea(t *testing.T) {
 	t.Run("retângulo", func(t *testing.T) {
-		got := r.Area()
-		want := 72.0
-		if got != want {
-			t.Errorf("got %.2f want %.2f", got, want)
-		}
+		r := Retangulo{Largura: 12, Altura: 6}
+		checarArea(t, r, 72.0)
 	})
 
 	t.Run("círculo", func(t *testing.T) {
-		got := c.Area()
-		want := 314.1592653589793
-		if got != want {
-			t.Errorf("got %g want %g", got, want)
-		}
+		c := Circulo{Raio: 10}
+		checarArea(t, c, 314.1592653589793)
 	})
 }
