@@ -62,7 +62,7 @@ style: |
 
 <!-- Slide 1 — Título (00:00) -->
 
-# Inversão de Dependência
+# Injeção de Dependência
 
 ### Curso básico de Go — Aula 05
 
